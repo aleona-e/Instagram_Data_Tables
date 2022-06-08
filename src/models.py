@@ -15,51 +15,26 @@ class User(Base):
     lastName = Column(String(250), nullable=False)
     email = Column(String(250), nullable=False)
 
-class Favorites(Base):
-    __tablename__= 'favorites'
+class Followers(Base):
+    __tablename__= 'followers'
     id = Column(Integer, primary_key=True)
-    userId = Column(Integer, ForeignKey('user.id'), nullable=False)
-    characterId = Column(Integer, ForeignKey('character.id'), nullable=True)
-    planetId = Column(Integer, ForeignKey('planet.id'), nullable=True)
-    vehicleId = Column(Integer, ForeignKey('vehicle.id'), nullable=True)
+    userFromId = Column(Integer, ForeignKey('user.id'), nullable=True)
+    userToId = Column(Integer, ForeignKey('user.id'), nullable=True)
+   
 
-class Planets(Base):
-    __tablename__='planet'
+class Post(Base):
+    __tablename__='post'
     id = Column(Integer, primary_key=True)
-    name = Column(String) 
-    terrain = Column(String)
-    population = Column(Integer)
-    diameter = Column(Integer) 
-    surfaceWater = Column(Integer) 
-    gravity = Column(String)
-    climate = Column(String) 
-    orbitalPeriod = Column(Integer)
-    rotationPeriod = Column(Integer)
+    user_id =Column(Integer, ForeignKey('user.id'))
+    date = Column(String)
+    
 
-class Characters(Base):
-    __tablename__='character'
+class Comment(Base):
+    __tablename__='comment'
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    gender = Column(String)
-    hairColor = Column(String)
-    eyeColor = Column(String)
-    mass = Column(Integer)
-    height = Column(Integer)
-    birthYear = Column(String) 
-    planet_id = Column(Integer, ForeignKey('planet.id'))
-
-class Vehicles(Base):
-    __tablename__='vehicle'
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    model = Column(String)
-    vehicleClass = Column(String)
-    manufacturers = Column(String)
-    cost = Column(Integer)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    post_id = Column(Integer, ForeignKey('post.id'))
     length = Column(Integer)
-    crew = Column(Integer)
-    passengers = Column(Integer)
-    pilots_id = Column(Integer, ForeignKey('character.id'))
 
 
     def to_dict(self):
